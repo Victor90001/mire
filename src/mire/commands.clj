@@ -10,14 +10,32 @@
   (alter to conj obj))
 
 ;; Command functions
+(defn stats
+  "Show player statistics"
+  ([] (str
+       "  Name: " player/*name*
+       "\n  Player type: " @player/*player-type*
+       (if (= @player/*player-type* "bot")
+         (str "\n  Catched: " @player/*caught*)
+         "")))
+  ([name]
+   (if (contains? (disj @(:inhabitants @player/*current-room*) player/*name*) name)
+     (if-let [player1 (first (filter #(= (:name %) name)
+                                     (vals @player/players-info)))]
+       (str "\n  Name: " (:name player1)
+            "\n  Player type: " @(:type player1)
+            (if (= @(:type player1) "bot")
+              (str "\n  Catched: " @(:caught player1))
+              "")))
+     (str ""))))
 
 (defn look
   "Get a description of the surrounding environs and its contents."
   []
   (str (:desc @player/*current-room*)
-       "\nExits: " (keys @(:exits @player/*current-room*)) "\n"
-       (str/join (map #(str "There is " % " here.\n")
-                      @(:items @player/*current-room*)))))
+       "\nExits: " (keys @(:exits @player/*current-room*))
+       (str/join (map #(str "\nThere is " % " here.") @(:items @player/*current-room*)))
+       (str/join (map stats (disj @(:inhabitants @player/*current-room*) player/*name*))) "\n"))
 
 (defn move
   "\"♬ We gotta get out of this place... ♪\" Give a direction."
@@ -103,21 +121,6 @@
   []
   (str "Your player type:\n" @player/*player-type*))
 
-(defn stats
-  "Show player statistics"
-  ([] (str
-       "Name: " player/*name*
-       "\nPlayer type: " @player/*player-type*
-       (if (= @player/*player-type* "bot") (str "\nCatched: " @player/*caught*) "")))
-  ([name]
-   (if (contains? (disj @(:inhabitants @player/*current-room*) player/*name*) name)
-     (if-let [player1 (first (filter #(= (:name %) name)
-                                     (vals @player/players-info)))]
-       (str "Name: " (:name player1)
-            "\nPlayer type: " @(:type player1)
-            (if (= @(:type player1) "bot") (str "\nCatched: " @(:caught player1)) "")))
-     (str ""))))
-
 (defn catch
   "Find a bot and stun him 4ever."
   [name]
@@ -149,7 +152,6 @@
                "south" (fn [] (move :south)),
                "east" (fn [] (move :east)),
                "west" (fn [] (move :west)),
-               "players" players
                "stats" stats
                "lobby" lobby
                "catch" catch

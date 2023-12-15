@@ -41,7 +41,6 @@
               player/*inventory* (ref #{})
               player/*caught* (ref "")]
       (dosync
-       (println player/*name*)
        (commute (:inhabitants @player/*current-room*) conj player/*name*)
        (commute player/streams assoc player/*name* *out*)
        (commute player/players-info conj {(keyword player/*name*) {:name player/*name*
