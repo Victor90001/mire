@@ -4,11 +4,10 @@
             [mire.player :as player]
             [mire.commands :as commands]
             [mire.rooms :as rooms]
-            [clojure.string :as str]
-            [clojure.java.shell :as shell]))
+            [clojure.string :as str]))
 
 (defn- cleanup []
-  "Drop all inventory and remove player from room and player list."
+  ;; "Drop all inventory and remove player from room and player list."
   (dosync
    (doseq [item @player/*inventory*]
      (commands/discard item))
