@@ -116,10 +116,6 @@
   (str/join "\n" (map #(str (key %) ": " (:doc (meta (val %))))
                       (dissoc (ns-publics 'mire.commands)
                               'execute 'commands))))
-(defn player-type
-  "Shows your current player type."
-  []
-  (str "Your player type:\n" @player/*player-type*))
 
 (defn catch
   "Find a bot and stun him 4ever."
@@ -131,13 +127,6 @@
       (whisper (:name bot) "You got caught.")
       "This is not a bot.")
     "You can't do that! Maybe you're the bot or there is no bot in current room."))
-
-(defn players
-  "Show players in the room"
-  []
-  (str/join "\n" (map stats @(:inhabitants @player/*current-room*))))
-  ;; (str "\n" (seq @(:inhabitants @player/*current-room*)))
-
 
 (defn lobby
   "Show players in the labyrinth"
