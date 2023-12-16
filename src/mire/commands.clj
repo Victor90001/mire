@@ -131,7 +131,7 @@
 (defn lobby
   "Show players in the labyrinth"
   []
-  (str @player/streams))
+  (str/join "\n" (map first @player/streams)))
   ;; (str "\n" (seq @(:inhabitants @player/*current-room*)))
 
 ;; Command data
