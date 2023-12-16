@@ -16,7 +16,7 @@
        "  Name: " player/*name*
        "\n  Player type: " @player/*player-type*
        (if (= @player/*player-type* "bot")
-         (str "\n  Catched: " @player/*caught*)
+         (str "\n  Caught: " @player/*caught*)
          "")))
   ([name]
    (if (contains? (disj @(:inhabitants @player/*current-room*) player/*name*) name)
@@ -25,7 +25,7 @@
        (str "\n  Name: " (:name player1)
             "\n  Player type: " @(:type player1)
             (if (= @(:type player1) "bot")
-              (str "\n  Catched: " @(:caught player1))
+              (str "\n  Caught: " @(:caught player1))
               "")))
      (str ""))))
 

@@ -4,3 +4,5 @@ classes/
 target/
 /.lein-repl-history
 /.nrepl-port
+./.clj-kondo/
+./.lsp
